@@ -1,28 +1,10 @@
-
 pipeline {
-   agent any
-    
-   stages {
-      stage('Say Hello') {
-         steps {
-            echo 'Hello World!'   
-         }
-      }
-   stage('Deploy') {
-        options {
-          timeout(time: 1, unit: 'MINUTES')
+    agent { docker { image 'maven:3.3.3' } }
+    stages {
+        stage('build') {
+            steps {
+                sh 'mvn --version'
+            }
         }
-        input {
-          message "Should we continue?"
-        }
-        steps {
-          echo "Continuing with deployment"
-        }
-        post {
-          aborted {
-            echo 'Why didn\'t you push my button?'
-          }
-        }
-      }
-   }
+    }
 }
